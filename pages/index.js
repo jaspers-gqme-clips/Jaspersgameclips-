@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react';
 
 const GlobalStyle = () => (
   <style>{`
@@ -16,12 +16,14 @@ const GlobalStyle = () => (
     * {
       box-sizing: inherit;
     }
+    @media (max-width: 520px) {
+      h1 { font-size: 2.5rem !important; }
+    }
   `}</style>
 );
 
 function FallingAsh({ count = 32 }) {
-  const [ashes, setAshes] = useState([])
-
+  const [ashes, setAshes] = React.useState([]);
   React.useEffect(() => {
     setAshes(Array.from({ length: count }, (_, i) => ({
       key: i + '-' + Math.random(),
@@ -30,8 +32,7 @@ function FallingAsh({ count = 32 }) {
       delay: Math.random() * 6,
       duration: 4 + Math.random() * 4
     })))
-  }, [count])
-
+  }, [count]);
   return (
     <div style={{
       pointerEvents: 'none',
@@ -62,12 +63,11 @@ function FallingAsh({ count = 32 }) {
         }
       `}</style>
     </div>
-  )
+  );
 }
 
 function FallingEmbers({ count = 10 }) {
-  const [embers, setEmbers] = useState([])
-
+  const [embers, setEmbers] = React.useState([]);
   React.useEffect(() => {
     setEmbers(Array.from({ length: count }, (_, i) => ({
       key: i + '-' + Math.random(),
@@ -78,8 +78,7 @@ function FallingEmbers({ count = 10 }) {
       duration: 2.7 + Math.random() * 4,
       rotate: Math.random() * 50 - 25
     })))
-  }, [count])
-
+  }, [count]);
   return (
     <div style={{
       pointerEvents: 'none',
@@ -110,13 +109,10 @@ function FallingEmbers({ count = 10 }) {
         }
       `}</style>
     </div>
-  )
+  );
 }
 
 export default function Home() {
-  const [showVideos, setShowVideos] = useState(false)
-  const [showMsg, setShowMsg] = useState(false)
-
   return (
     <div style={{
       minHeight: '100vh',
@@ -124,133 +120,85 @@ export default function Home() {
       background: `url('/bg1.png') center center / cover no-repeat #140a04`,
       display: 'flex',
       flexDirection: 'column',
-      justifyContent: 'flex-end',
+      justifyContent: 'flex-start',
       alignItems: 'center',
       position: 'relative',
-      paddingBottom: '10vh',
       overflow: 'hidden'
     }}>
       <GlobalStyle />
       <FallingAsh count={32} />
       <FallingEmbers count={12} />
-      <button
-        style={btnStyle}
-        onClick={() => setShowVideos(v => !v)}
-      >
-        WATCH JASPER'S RUST VIDS
-      </button>
-      <button
-        style={btnStyle}
-        onClick={() => setShowMsg(m => !m)}
-      >
-        MESSAGE BOARD
-      </button>
-      {/* YouTube Videos Modal */}
-      {showVideos && (
-        <div style={modalBackdrop} onClick={() => setShowVideos(false)}>
-          <div style={modalStyle} onClick={e => e.stopPropagation()}>
-            <button style={closeBtnStyle} onClick={() => setShowVideos(false)}>✖</button>
-            <h2 style={{ color: '#fff', fontWeight: 700, marginBottom: 16 }}>Jasper's Rust Videos</h2>
-            <a
-              href="https://www.youtube.com/@jaspersgameclips/videos"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: 'block',
-                background: '#ff7300',
-                color: '#fff',
-                borderRadius: 14,
-                padding: '1rem',
-                fontSize: '1.3rem',
-                textAlign: 'center',
-                textDecoration: 'none',
-                marginTop: '2rem',
-                fontWeight: 'bold',
-                boxShadow: '0 2px 10px #2228'
-              }}
-            >
-              👉 Tap Here to Watch Jasper's Latest Rust Clips on YouTube
-            </a>
-          </div>
-        </div>
-      )}
-      {/* Fossil.chat Message Board Modal */}
-      {showMsg && (
-        <div style={modalBackdrop} onClick={() => setShowMsg(false)}>
-          <div style={modalStyle} onClick={e => e.stopPropagation()}>
-            <button style={closeBtnStyle} onClick={() => setShowMsg(false)}>✖</button>
-            <h2 style={{ color: '#fff', fontWeight: 700, marginBottom: 12 }}>Message Board</h2>
-            <iframe
-              src="https://fossil.chat/room/jaspers-rust-room?embed=1"
-              style={{
-                width: "98%",
-                height: "320px",
-                border: "none",
-                borderRadius: "16px",
-                background: "#241203"
-              }}
-              allowTransparency={true}
-              title="Jasper's Rust Room"
-            />
-          </div>
-        </div>
-      )}
+      {/* Logo Section */}
+      <div style={{
+        marginTop: '8vw',
+        marginBottom: 10,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
+      }}>
+        <img
+          src="/bg1.png"
+          alt="Jasper Rust Logo"
+          style={{
+            width: 110, height: 110,
+            borderRadius: 24,
+            marginBottom: 10,
+            boxShadow: '0 8px 40px #140a04bb'
+          }}
+        />
+        <h1 style={{
+          color: '#ff7300',
+          fontSize: '3.2rem',
+          letterSpacing: 3,
+          fontFamily: 'Bebas Neue, Impact, sans-serif',
+          textShadow: '0 4px 24px #2a1307, 1px 2px 1px #fff1'
+        }}>
+          JASPER
+        </h1>
+      </div>
+      {/* Buttons */}
+      <div style={{
+        marginTop: 10, width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center'
+      }}>
+        <a
+          href="https://www.youtube.com/@jaspersgameclips/videos"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={bigBtnStyle}
+        >
+          🎥 WATCH JASPER'S RUST CLIPS
+        </a>
+        <a
+          href="https://fossil.chat/room/jaspers-rust-room"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ ...bigBtnStyle, marginTop: 18 }}
+        >
+          💬 MESSAGE BOARD
+        </a>
+      </div>
     </div>
-  )
+  );
 }
 
-const btnStyle = {
-  width: '90vw',
-  maxWidth: 340,
-  fontSize: '1.3rem',
-  fontFamily: 'Bebas Neue', // fallback to Impact, sans-serif if not loaded
+const bigBtnStyle = {
+  width: '92vw',
+  maxWidth: 370,
+  fontSize: '1.26rem',
+  fontFamily: 'Bebas Neue, Impact, sans-serif',
   background: 'linear-gradient(90deg, #ff7300, #bc3200 90%)',
   color: '#fffbe8',
-  border: '2px solid #2e1800',
-  borderRadius: 18,
-  padding: '1.1rem 0.4rem',
+  border: '2.3px solid #2e1800',
+  borderRadius: 19,
+  padding: '1.25rem 0.3rem',
   boxShadow: '0 2px 18px #2227',
   textShadow: '1px 2px 2px #5e2b10',
-  marginBottom: '1.1rem',
   letterSpacing: 2,
   cursor: 'pointer',
-  transition: 'transform 0.08s, box-shadow 0.14s'
-}
-
-const modalBackdrop = {
-  position: 'fixed',
-  inset: 0,
-  background: 'rgba(16,8,2,0.93)',
-  zIndex: 1000,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center'
-}
-const modalStyle = {
-  background: '#251305e8',
-  borderRadius: 20,
-  maxWidth: '98vw',
-  width: 400,
-  minWidth: '92vw',
-  maxHeight: '85vh',
-  padding: '1rem 0.8rem 1.6rem 0.8rem',
-  boxShadow: '0 8px 32px #8e3c07dd',
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  overflowY: 'auto',
-  position: 'relative'
-}
-const closeBtnStyle = {
-  background: 'none',
-  border: 'none',
-  color: '#ff8200',
-  fontSize: '2.1rem',
-  fontWeight: 'bold',
-  position: 'absolute',
-  right: 18,
-  top: 14,
-  cursor: 'pointer',
-  zIndex: 202,
-  textShadow: '1px 2px 8px #000'
-}
+  textDecoration: 'none',
+  marginBottom: '1.05rem',
+  textAlign: 'center',
+  fontWeight: 600,
+  transition: 'transform 0.10s, box-shadow 0.18s',
+  display: 'block'
+};
