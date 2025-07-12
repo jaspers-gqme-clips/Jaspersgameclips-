@@ -1,17 +1,36 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 
-// Simple falling ash effect using absolutely positioned divs
+// CSS Reset and base styles for mobile full-bleed
+const GlobalStyle = () => (
+  <style>{`
+    html, body, #__next {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: #140a04;
+      box-sizing: border-box;
+      overflow-x: hidden;
+    }
+    body {
+      font-family: 'Bebas Neue', Impact, sans-serif;
+    }
+    * {
+      box-sizing: inherit;
+    }
+  `}</style>
+);
+
+// Simple falling ash
 function FallingAsh({ count = 32 }) {
   const [ashes, setAshes] = useState([])
 
   useEffect(() => {
-    // Generate random ash particles
     setAshes(Array.from({ length: count }, (_, i) => ({
       key: i + '-' + Math.random(),
-      left: Math.random() * 100,    // percent across the screen
-      size: 3 + Math.random() * 2,  // px
-      delay: Math.random() * 6,     // seconds
-      duration: 4 + Math.random() * 4 // seconds
+      left: Math.random() * 100,
+      size: 3 + Math.random() * 2,
+      delay: Math.random() * 6,
+      duration: 4 + Math.random() * 4
     })))
   }, [count])
 
@@ -30,19 +49,67 @@ function FallingAsh({ count = 32 }) {
           width: a.size,
           height: a.size * (0.8 + Math.random() * 0.4),
           borderRadius: '50%',
-          background: 'rgba(255,255,255,0.27)',
-          opacity: 0.65,
-          filter: 'blur(0.6px)',
-          boxShadow: `0 0 6px 1.7px #fff7, 0 0 14px 2px #f79542aa`,
+          background: 'rgba(255,255,255,0.19)',
+          opacity: 0.7,
+          filter: 'blur(0.7px)',
+          boxShadow: `0 0 6px 1.3px #fff9, 0 0 11px 2px #e4b96e88`,
           animation: `ash-fall ${a.duration}s linear ${a.delay}s infinite`
         }} />
       )}
-      {/* Inline keyframes for mobile Next.js simplicity */}
       <style>{`
         @keyframes ash-fall {
           0% { transform: translateY(0) scaleX(1); opacity: 0.9;}
           93% { opacity: 0.55;}
           100% { transform: translateY(98vh) scaleX(0.92); opacity: 0;}
+        }
+      `}</style>
+    </div>
+  )
+}
+
+// Animated bright firing embers
+function FallingEmbers({ count = 10 }) {
+  const [embers, setEmbers] = useState([])
+
+  useEffect(() => {
+    setEmbers(Array.from({ length: count }, (_, i) => ({
+      key: i + '-' + Math.random(),
+      left: 6 + Math.random() * 88, // don't go off screen
+      size: 6 + Math.random() * 8,
+      color: Math.random() > 0.3 ? "#ff4500" : "#ffda5c",
+      delay: Math.random() * 7,
+      duration: 2.7 + Math.random() * 4,
+      rotate: Math.random() * 50 - 25
+    })))
+  }, [count])
+
+  return (
+    <div style={{
+      pointerEvents: 'none',
+      position: 'fixed',
+      left: 0, top: 0, width: '100vw', height: '100vh',
+      zIndex: 2
+    }}>
+      {embers.map(a =>
+        <div key={a.key} style={{
+          position: 'absolute',
+          left: `${a.left}vw`,
+          top: '-10px',
+          width: a.size,
+          height: a.size * (0.41 + Math.random() * 0.55),
+          borderRadius: '50% 46% 41% 59%/52% 62% 39% 48%',
+          background: `radial-gradient(ellipse at 60% 40%, ${a.color} 0%, #a72102 100%)`,
+          boxShadow: `0 0 7px 2px #ff7b0bdd, 0 0 18px 7px #d42102a0`,
+          opacity: 0.88,
+          transform: `rotate(${a.rotate}deg)`,
+          animation: `ember-fall ${a.duration}s cubic-bezier(0.7,0.09,0.8,1) ${a.delay}s infinite`
+        }} />
+      )}
+      <style>{`
+        @keyframes ember-fall {
+          0% { transform: translateY(0) scaleX(1) rotate(0deg); opacity: 1;}
+          80% { opacity: 0.9;}
+          100% { transform: translateY(98vh) scaleX(0.98) rotate(14deg); opacity: 0;}
         }
       `}</style>
     </div>
@@ -90,8 +157,8 @@ export default function Home() {
   return (
     <div style={{
       minHeight: '100vh',
-      width: '100vw',
-      background: `url('/bg1.png') center center / cover no-repeat`,
+      minWidth: '100vw',
+      background: `url('/bg1.png') center center / cover no-repeat #140a04`,
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'flex-end',
@@ -100,8 +167,9 @@ export default function Home() {
       paddingBottom: '10vh',
       overflow: 'hidden'
     }}>
-      {/* Falling ash effect */}
+      <GlobalStyle />
       <FallingAsh count={32} />
+      <FallingEmbers count={12} />
       {/* --- Logo block REMOVED --- */}
       <button
         style={btnStyle}
@@ -212,7 +280,7 @@ const modalBackdrop = {
   position: 'fixed',
   inset: 0,
   background: 'rgba(16,8,2,0.93)',
-  zIndex: 100,
+  zIndex: 1000,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center'
@@ -249,7 +317,7 @@ const playerModalBackdrop = {
   position: 'fixed',
   inset: 0,
   background: 'rgba(24,10,2,0.85)',
-  zIndex: 300,
+  zIndex: 3000,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center'
@@ -261,4 +329,4 @@ const playerModalStyle = {
   boxShadow: '0 6px 28px #9e4509e2',
   maxWidth: '97vw',
   minWidth: '83vw'
-              }
+        }
