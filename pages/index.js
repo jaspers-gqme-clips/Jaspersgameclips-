@@ -1,4 +1,53 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+
+// Simple falling ash effect using absolutely positioned divs
+function FallingAsh({ count = 32 }) {
+  const [ashes, setAshes] = useState([])
+
+  useEffect(() => {
+    // Generate random ash particles
+    setAshes(Array.from({ length: count }, (_, i) => ({
+      key: i + '-' + Math.random(),
+      left: Math.random() * 100,    // percent across the screen
+      size: 3 + Math.random() * 2,  // px
+      delay: Math.random() * 6,     // seconds
+      duration: 4 + Math.random() * 4 // seconds
+    })))
+  }, [count])
+
+  return (
+    <div style={{
+      pointerEvents: 'none',
+      position: 'fixed',
+      left: 0, top: 0, width: '100vw', height: '100vh',
+      zIndex: 1
+    }}>
+      {ashes.map(a =>
+        <div key={a.key} style={{
+          position: 'absolute',
+          left: `${a.left}vw`,
+          top: '-8px',
+          width: a.size,
+          height: a.size * (0.8 + Math.random() * 0.4),
+          borderRadius: '50%',
+          background: 'rgba(255,255,255,0.27)',
+          opacity: 0.65,
+          filter: 'blur(0.6px)',
+          boxShadow: `0 0 6px 1.7px #fff7, 0 0 14px 2px #f79542aa`,
+          animation: `ash-fall ${a.duration}s linear ${a.delay}s infinite`
+        }} />
+      )}
+      {/* Inline keyframes for mobile Next.js simplicity */}
+      <style>{`
+        @keyframes ash-fall {
+          0% { transform: translateY(0) scaleX(1); opacity: 0.9;}
+          93% { opacity: 0.55;}
+          100% { transform: translateY(98vh) scaleX(0.92); opacity: 0;}
+        }
+      `}</style>
+    </div>
+  )
+}
 
 export default function Home() {
   const [videos, setVideos] = useState([])
@@ -48,14 +97,12 @@ export default function Home() {
       justifyContent: 'flex-end',
       alignItems: 'center',
       position: 'relative',
-      paddingBottom: '10vh'
+      paddingBottom: '10vh',
+      overflow: 'hidden'
     }}>
-      {/* Logo (just for spacing, swap with your own if wanted) */}
-      <div style={{
-        width: 120, height: 120, borderRadius: 24, marginBottom: 28,
-        background: `url('/bg1.png') center 16% / 120px 120px no-repeat`,
-        border: '4px solid #332012cc', boxShadow: '0 2px 24px #a94616bb'
-      }} />
+      {/* Falling ash effect */}
+      <FallingAsh count={32} />
+      {/* --- Logo block REMOVED --- */}
       <button
         style={btnStyle}
         onClick={() => setShowVideos(v => !v)}
@@ -214,4 +261,4 @@ const playerModalStyle = {
   boxShadow: '0 6px 28px #9e4509e2',
   maxWidth: '97vw',
   minWidth: '83vw'
-}
+              }
