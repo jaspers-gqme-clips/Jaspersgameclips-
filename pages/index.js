@@ -151,15 +151,26 @@ export default function Home() {
           <div style={modalStyle} onClick={e => e.stopPropagation()}>
             <button style={closeBtnStyle} onClick={() => setShowVideos(false)}>✖</button>
             <h2 style={{ color: '#fff', fontWeight: 700, marginBottom: 16 }}>Jasper's Rust Videos</h2>
-            <iframe
-              width="100%"
-              height="360"
-              src="https://www.youtube.com/embed?listType=user_uploads&list=UCm5yqOSl2XMd2bC1q8EnxuA"
-              style={{ borderRadius: 16, border: 0 }}
-              allow="autoplay; encrypted-media"
-              allowFullScreen
-              title="Jasper's Rust Videos"
-            ></iframe>
+            <a
+              href="https://www.youtube.com/@jaspersgameclips/videos"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'block',
+                background: '#ff7300',
+                color: '#fff',
+                borderRadius: 14,
+                padding: '1rem',
+                fontSize: '1.3rem',
+                textAlign: 'center',
+                textDecoration: 'none',
+                marginTop: '2rem',
+                fontWeight: 'bold',
+                boxShadow: '0 2px 10px #2228'
+              }}
+            >
+              👉 Tap Here to Watch Jasper's Latest Rust Clips on YouTube
+            </a>
           </div>
         </div>
       )}
