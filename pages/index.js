@@ -16,9 +16,6 @@ const GlobalStyle = () => (
     * {
       box-sizing: inherit;
     }
-    @media (max-width: 520px) {
-      h1 { font-size: 2.5rem !important; }
-    }
   `}</style>
 );
 
@@ -127,7 +124,7 @@ export default function Home() {
       <GlobalStyle />
       <FallingAsh count={32} />
       <FallingEmbers count={12} />
-      {/* Spacer area at top */}
+      {/* Spacer for top (no headline, just art) */}
       <div style={{
         marginTop: '18vw',
         marginBottom: 12,
@@ -138,9 +135,13 @@ export default function Home() {
       }}>
         {/* No headline needed, background art does the job! */}
       </div>
-      {/* Buttons moved down */}
+      {/* Only the buttons, moved way down */}
       <div style={{
-        marginTop: '34vh', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center'
+        marginTop: '50vh', // <-- Lowered. Adjust as needed (try 45vh, 55vh, etc.)
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
       }}>
         <a
           href="https://www.youtube.com/@jaspersgameclips/videos"
