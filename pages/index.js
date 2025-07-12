@@ -120,7 +120,6 @@ export default function Home() {
       background: `url('/bg1.png') center center / cover no-repeat #140a04`,
       display: 'flex',
       flexDirection: 'column',
-      justifyContent: 'flex-start',
       alignItems: 'center',
       position: 'relative',
       overflow: 'hidden'
@@ -128,25 +127,15 @@ export default function Home() {
       <GlobalStyle />
       <FallingAsh count={32} />
       <FallingEmbers count={12} />
-      {/* Main Logo Area (just Jasper badge as background) */}
+      {/* Headline (no extra logo image) */}
       <div style={{
-        marginTop: '7vw',
+        marginTop: '18vw',
         marginBottom: 12,
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center'
+        alignItems: 'center',
+        zIndex: 5
       }}>
-        {/* If you want to use a separate logo file, update src below */}
-        <img
-          src="/bg1.png"
-          alt="Jasper Rust Badge"
-          style={{
-            width: 160, height: 160,
-            borderRadius: 36,
-            marginBottom: 12,
-            boxShadow: '0 8px 40px #140a04bb'
-          }}
-        />
         <h1 style={{
           color: '#ff7300',
           fontSize: '3.2rem',
@@ -157,19 +146,10 @@ export default function Home() {
         }}>
           JASPER
         </h1>
-        {/* Tagline example (optional) */}
-        {/* <div style={{
-          color: '#fff8',
-          fontWeight: 500,
-          fontSize: '1.1rem',
-          marginTop: 4,
-          marginBottom: 8,
-          textShadow: '1px 1px 4px #000'
-        }}>Rust Game Clips & Community</div> */}
       </div>
-      {/* Buttons */}
+      {/* Buttons moved way down */}
       <div style={{
-        marginTop: 30, width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center'
+        marginTop: '34vh', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center'
       }}>
         <a
           href="https://www.youtube.com/@jaspersgameclips/videos"
