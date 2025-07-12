@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
-// CSS Reset and base styles for mobile full-bleed
 const GlobalStyle = () => (
   <style>{`
     html, body, #__next {
@@ -20,11 +19,10 @@ const GlobalStyle = () => (
   `}</style>
 );
 
-// Simple falling ash
 function FallingAsh({ count = 32 }) {
   const [ashes, setAshes] = useState([])
 
-  useEffect(() => {
+  React.useEffect(() => {
     setAshes(Array.from({ length: count }, (_, i) => ({
       key: i + '-' + Math.random(),
       left: Math.random() * 100,
@@ -67,14 +65,13 @@ function FallingAsh({ count = 32 }) {
   )
 }
 
-// Animated bright firing embers
 function FallingEmbers({ count = 10 }) {
   const [embers, setEmbers] = useState([])
 
-  useEffect(() => {
+  React.useEffect(() => {
     setEmbers(Array.from({ length: count }, (_, i) => ({
       key: i + '-' + Math.random(),
-      left: 6 + Math.random() * 88, // don't go off screen
+      left: 6 + Math.random() * 88,
       size: 6 + Math.random() * 8,
       color: Math.random() > 0.3 ? "#ff4500" : "#ffda5c",
       delay: Math.random() * 7,
@@ -117,42 +114,8 @@ function FallingEmbers({ count = 10 }) {
 }
 
 export default function Home() {
-  const [videos, setVideos] = useState([])
   const [showVideos, setShowVideos] = useState(false)
   const [showMsg, setShowMsg] = useState(false)
-  const [currentVid, setCurrentVid] = useState(null)
-  const [loading, setLoading] = useState(false)
-
-  // YouTube channel info
-  const CHANNEL_ID = 'UUZndgFhIftlNCrTuM3S30CA'
-  const API_KEY = 'AIzaSyCLzWim4RLvw9FBTyRv6Rv1eaRi4CMIUIw'
-  const MAX_RESULTS = 8
-
-  useEffect(() => {
-    async function fetchVideos() {
-      setLoading(true)
-      try {
-        const res = await fetch(
-          `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=${MAX_RESULTS}`
-        )
-        const data = await res.json()
-        if (data.items) {
-          const vids = data.items
-            .filter(item => item.id.kind === "youtube#video")
-            .map(item => ({
-              id: item.id.videoId,
-              title: item.snippet.title,
-              thumb: item.snippet.thumbnails.medium.url
-            }))
-          setVideos(vids)
-        }
-      } catch (e) {
-        setVideos([])
-      }
-      setLoading(false)
-    }
-    if (showVideos && videos.length === 0) fetchVideos()
-  }, [showVideos])
 
   return (
     <div style={{
@@ -170,7 +133,6 @@ export default function Home() {
       <GlobalStyle />
       <FallingAsh count={32} />
       <FallingEmbers count={12} />
-      {/* --- Logo block REMOVED --- */}
       <button
         style={btnStyle}
         onClick={() => setShowVideos(v => !v)}
@@ -183,72 +145,42 @@ export default function Home() {
       >
         MESSAGE BOARD
       </button>
-      {/* YouTube Video Modal */}
+      {/* YouTube Videos Modal */}
       {showVideos && (
-        <div style={modalBackdrop} onClick={() => { setShowVideos(false); setCurrentVid(null) }}>
+        <div style={modalBackdrop} onClick={() => setShowVideos(false)}>
           <div style={modalStyle} onClick={e => e.stopPropagation()}>
-            <button style={closeBtnStyle} onClick={() => { setShowVideos(false); setCurrentVid(null) }}>✖</button>
+            <button style={closeBtnStyle} onClick={() => setShowVideos(false)}>✖</button>
             <h2 style={{ color: '#fff', fontWeight: 700, marginBottom: 16 }}>Jasper's Rust Videos</h2>
-            {loading && <div style={{ color: "#fff" }}>Loading…</div>}
-            <div style={{
-              display: 'grid', gridTemplateColumns: '1fr 1fr',
-              gap: '1.1rem 0.7rem', width: '100%', margin: '1.2rem 0'
-            }}>
-              {videos.map(v => (
-                <div key={v.id}
-                  style={{
-                    background: '#1d1107c2', borderRadius: 14, boxShadow: '0 2px 8px #2b1307c8',
-                    cursor: 'pointer', overflow: 'hidden', border: '2px solid #ff730088',
-                    display: 'flex', flexDirection: 'column', alignItems: 'center'
-                  }}
-                  onClick={() => setCurrentVid(v.id)}
-                >
-                  <img src={v.thumb} alt={v.title} style={{ width: '100%', borderRadius: '12px 12px 0 0' }} />
-                  <div style={{
-                    fontSize: '0.98rem', color: '#fff5e1', fontFamily: 'Bebas Neue, Impact, sans-serif',
-                    padding: '0.44rem 0.28rem 0.22rem 0.28rem', textAlign: 'center', minHeight: 38
-                  }}>{v.title}</div>
-                </div>
-              ))}
-            </div>
-            {/* Player Modal */}
-            {currentVid && (
-              <div style={playerModalBackdrop} onClick={() => setCurrentVid(null)}>
-                <div style={playerModalStyle} onClick={e => e.stopPropagation()}>
-                  <iframe
-                    width="100%"
-                    height="220"
-                    src={`https://www.youtube.com/embed/${currentVid}?autoplay=1`}
-                    title="Rust Video"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    style={{ borderRadius: '18px' }}
-                  />
-                </div>
-              </div>
-            )}
+            <iframe
+              width="100%"
+              height="360"
+              src="https://www.youtube.com/embed?listType=user_uploads&list=UCZndgFhIftlNCrTuM3S30CA"
+              style={{ borderRadius: 16, border: 0 }}
+              allow="autoplay; encrypted-media"
+              allowFullScreen
+              title="Jasper's Rust Videos"
+            ></iframe>
           </div>
         </div>
       )}
-      {/* Message Board Modal */}
+      {/* Fossil.chat Message Board Modal */}
       {showMsg && (
         <div style={modalBackdrop} onClick={() => setShowMsg(false)}>
           <div style={modalStyle} onClick={e => e.stopPropagation()}>
             <button style={closeBtnStyle} onClick={() => setShowMsg(false)}>✖</button>
             <h2 style={{ color: '#fff', fontWeight: 700, marginBottom: 12 }}>Message Board</h2>
             <iframe
-              src="https://minnit.chat/JasperRustRoom?embed&&nickname="
+              src="https://fossil.chat/room/jaspers-rust-room?embed=1"
               style={{
-                border: '1px solid #6e3207',
-                width: '98%',
-                height: '320px',
-                borderRadius: '16px',
-                margin: '8px 0'
+                width: "98%",
+                height: "320px",
+                border: "none",
+                borderRadius: "16px",
+                background: "#241203"
               }}
               allowTransparency={true}
-              title="Jasper's Rust Message Board"
-            ></iframe>
+              title="Jasper's Rust Room"
+            />
           </div>
         </div>
       )}
@@ -256,7 +188,6 @@ export default function Home() {
   )
 }
 
-// Button style
 const btnStyle = {
   width: '90vw',
   maxWidth: 340,
@@ -275,7 +206,6 @@ const btnStyle = {
   transition: 'transform 0.08s, box-shadow 0.14s'
 }
 
-// Modal/backdrop styles
 const modalBackdrop = {
   position: 'fixed',
   inset: 0,
@@ -313,20 +243,3 @@ const closeBtnStyle = {
   zIndex: 202,
   textShadow: '1px 2px 8px #000'
 }
-const playerModalBackdrop = {
-  position: 'fixed',
-  inset: 0,
-  background: 'rgba(24,10,2,0.85)',
-  zIndex: 3000,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center'
-}
-const playerModalStyle = {
-  background: '#241203',
-  borderRadius: 18,
-  padding: '1.1rem 0.5rem',
-  boxShadow: '0 6px 28px #9e4509e2',
-  maxWidth: '97vw',
-  minWidth: '83vw'
-        }
