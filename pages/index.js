@@ -127,7 +127,7 @@ export default function Home() {
       <GlobalStyle />
       <FallingAsh count={32} />
       <FallingEmbers count={12} />
-      {/* Headline (no extra logo image) */}
+      {/* Spacer area at top */}
       <div style={{
         marginTop: '18vw',
         marginBottom: 12,
@@ -136,18 +136,9 @@ export default function Home() {
         alignItems: 'center',
         zIndex: 5
       }}>
-        <h1 style={{
-          color: '#ff7300',
-          fontSize: '3.2rem',
-          letterSpacing: 3,
-          fontFamily: 'Bebas Neue, Impact, sans-serif',
-          textShadow: '0 4px 24px #2a1307, 1px 2px 1px #fff1',
-          margin: 0
-        }}>
-          JASPER
-        </h1>
+        {/* No headline needed, background art does the job! */}
       </div>
-      {/* Buttons moved way down */}
+      {/* Buttons moved down */}
       <div style={{
         marginTop: '34vh', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center'
       }}>
