@@ -128,21 +128,22 @@ export default function Home() {
       <GlobalStyle />
       <FallingAsh count={32} />
       <FallingEmbers count={12} />
-      {/* Logo Section */}
+      {/* Main Logo Area (just Jasper badge as background) */}
       <div style={{
-        marginTop: '8vw',
-        marginBottom: 10,
+        marginTop: '7vw',
+        marginBottom: 12,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center'
       }}>
+        {/* If you want to use a separate logo file, update src below */}
         <img
           src="/bg1.png"
-          alt="Jasper Rust Logo"
+          alt="Jasper Rust Badge"
           style={{
-            width: 110, height: 110,
-            borderRadius: 24,
-            marginBottom: 10,
+            width: 160, height: 160,
+            borderRadius: 36,
+            marginBottom: 12,
             boxShadow: '0 8px 40px #140a04bb'
           }}
         />
@@ -151,14 +152,24 @@ export default function Home() {
           fontSize: '3.2rem',
           letterSpacing: 3,
           fontFamily: 'Bebas Neue, Impact, sans-serif',
-          textShadow: '0 4px 24px #2a1307, 1px 2px 1px #fff1'
+          textShadow: '0 4px 24px #2a1307, 1px 2px 1px #fff1',
+          margin: 0
         }}>
           JASPER
         </h1>
+        {/* Tagline example (optional) */}
+        {/* <div style={{
+          color: '#fff8',
+          fontWeight: 500,
+          fontSize: '1.1rem',
+          marginTop: 4,
+          marginBottom: 8,
+          textShadow: '1px 1px 4px #000'
+        }}>Rust Game Clips & Community</div> */}
       </div>
       {/* Buttons */}
       <div style={{
-        marginTop: 10, width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center'
+        marginTop: 30, width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center'
       }}>
         <a
           href="https://www.youtube.com/@jaspersgameclips/videos"
@@ -169,7 +180,7 @@ export default function Home() {
           🎥 WATCH JASPER'S RUST CLIPS
         </a>
         <a
-          href="https://fossil.chat/room/jaspers-rust-room"
+          href="https://tlk.io/jaspersrustroom"
           target="_blank"
           rel="noopener noreferrer"
           style={{ ...bigBtnStyle, marginTop: 18 }}
@@ -183,7 +194,7 @@ export default function Home() {
 
 const bigBtnStyle = {
   width: '92vw',
-  maxWidth: 370,
+  maxWidth: 420,
   fontSize: '1.26rem',
   fontFamily: 'Bebas Neue, Impact, sans-serif',
   background: 'linear-gradient(90deg, #ff7300, #bc3200 90%)',
