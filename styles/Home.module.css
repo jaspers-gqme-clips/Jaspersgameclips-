@@ -1,0 +1,8 @@
+/* Rust-style site theme */
+body {
+  margin: 0;
+  padding: 0;
+  background: #191007;
+  color: #fff;
+  font-family: 'Bebas Neue', Impact, sans-serif;
+}
