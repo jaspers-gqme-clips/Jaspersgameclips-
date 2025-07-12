@@ -168,7 +168,7 @@ const bigBtnStyle = {
   width: '92vw',
   maxWidth: 420,
   fontSize: '1.26rem',
-  fontFamily: 'Bebas Neue, Impact, sans-serif',
+  fontFamily: 'Bebas Neue', // or Impact, sans-serif
   background: 'linear-gradient(90deg, #ff7300, #bc3200 90%)',
   color: '#fffbe8',
   border: '2.3px solid #2e1800',
