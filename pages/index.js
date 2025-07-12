@@ -154,7 +154,7 @@ export default function Home() {
             <iframe
               width="100%"
               height="360"
-              src="https://www.youtube.com/embed?listType=user_uploads&list=UCZndgFhIftlNCrTuM3S30CA"
+              src="https://www.youtube.com/embed?listType=user_uploads&list=UCm5yqOSl2XMd2bC1q8EnxuA"
               style={{ borderRadius: 16, border: 0 }}
               allow="autoplay; encrypted-media"
               allowFullScreen
@@ -242,4 +242,4 @@ const closeBtnStyle = {
   cursor: 'pointer',
   zIndex: 202,
   textShadow: '1px 2px 8px #000'
-        }
+}
